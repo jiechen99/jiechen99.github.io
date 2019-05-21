@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="deep learning,text detection," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="相关论文2018 ECCV Mask TextSpotter: An End-to-End Trainable Neural Network for Spotting Text with Arbitrary Shapes CVPR FOTS: Fast Oriented Text Spotting with a Unified Network IJCAI IncepText: A New Ince">
+<meta name="keywords" content="deep learning,text detection">
+<meta property="og:type" content="article">
+<meta property="og:title" content="text detection paper &amp;&amp; dataset">
+<meta property="og:url" content="http://yoursite.com/2018/03/09/text-detection/index.html">
+<meta property="og:site_name" content="Jie&#39;s Notes">
+<meta property="og:description" content="相关论文2018 ECCV Mask TextSpotter: An End-to-End Trainable Neural Network for Spotting Text with Arbitrary Shapes CVPR FOTS: Fast Oriented Text Spotting with a Unified Network IJCAI IncepText: A New Ince">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-02T16:07:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="text detection paper &amp;&amp; dataset">
+<meta name="twitter:description" content="相关论文2018 ECCV Mask TextSpotter: An End-to-End Trainable Neural Network for Spotting Text with Arbitrary Shapes CVPR FOTS: Fast Oriented Text Spotting with a Unified Network IJCAI IncepText: A New Ince">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/09/text-detection/"/>
+
+
+
+
+
+  <title>text detection paper && dataset | Jie's Notes</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jie's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/09/text-detection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cjstyle">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://otaqy7jyn.bkt.clouddn.com/IMG_4837.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jie's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">text detection paper && dataset</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T00:00:00+08:00">
+                2018-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/科研/" itemprop="url" rel="index">
+                    <span itemprop="name">科研</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="相关论文"><a href="#相关论文" class="headerlink" title="相关论文"></a>相关论文</h1><h2 id="2018"><a href="#2018" class="headerlink" title="2018"></a>2018</h2><ul>
+<li><strong>ECCV</strong> <a href="https://arxiv.org/abs/1807.02242" target="_blank" rel="external">Mask TextSpotter: An End-to-End Trainable Neural Network for Spotting Text with Arbitrary Shapes</a></li>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1801.01671" target="_blank" rel="external">FOTS: Fast Oriented Text Spotting with a Unified Network</a></li>
+<li><strong>IJCAI</strong> <a href="https://arxiv.org/abs/1805.01167" target="_blank" rel="external">IncepText: A New Inception-Text Module with Deformable PSROI Pooling for Multi-Oriented Scene Text Detection</a></li>
+<li><strong>TIP</strong>  <a href="https://arxiv.org/abs/1801.02765" target="_blank" rel="external">TextBoxes++: A Single-Shot Oriented Scene Text Detector</a></li>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1803.05265" target="_blank" rel="external">Rotation-Sensitive Regression for Oriented Scene Text Detection</a></li>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1803.03474" target="_blank" rel="external">Single Shot TextSpotter with Explicit Alignment and Attention</a></li>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1802.08948" target="_blank" rel="external">Multi-Oriented Scene Text Detection via Corner Localization and Region Segmentation</a></li>
+<li><strong>AAAI</strong> <a href="https://arxiv.org/abs/1711.04249" target="_blank" rel="external">Feature Enhancement Network: A Refined Scene Text Detector</a></li>
+<li><strong>AAAI</strong> <a href="https://arxiv.org/abs/1801.01315" target="_blank" rel="external">PixelLink: Detecting Scene Text via Instance Segmentation</a></li>
+<li><strong>AAAI</strong> <a href="https://arxiv.org/abs/1712.05404" target="_blank" rel="external">SEE: Towards Semi-Supervised End-to-End Scene Text Recognition</a></li>
+<li><strong>ICPR</strong> <a href="https://arxiv.org/abs/1709.03272" target="_blank" rel="external">Fused Text Segmentation Networks for Multi-oriented Scene Text Detection</a></li>
+</ul>
+<h2 id="2017"><a href="#2017" class="headerlink" title="2017"></a>2017</h2><ul>
+<li><strong>AAAI</strong> <a href="https://arxiv.org/abs/1611.06779" target="_blank" rel="external">TextBoxes: A Fast Text Detector with a Single Deep Neural Network</a></li>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1703.01425" target="_blank" rel="external">Deep Matching Prior Network: Toward Tighter Multi-oriented Text Detection</a></li>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1703.06520" target="_blank" rel="external">Detecting Oriented Text in Natural Images by Linking Segments</a></li>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1704.03155" target="_blank" rel="external">EAST: An Efficient and Accurate Scene Text Detector</a></li>
+<li><strong>ICCV</strong> <a href="https://arxiv.org/abs/1709.00138" target="_blank" rel="external">Single Shot Text Detector with Regional Attention</a></li>
+</ul>
+<h2 id="2016"><a href="#2016" class="headerlink" title="2016"></a>2016</h2><ul>
+<li><strong>CVPR</strong> <a href="http://arxiv.org/abs/1604.06646" target="_blank" rel="external">Synthetic Data for Text Localisation in Natural Images</a></li>
+<li><strong>ECCV</strong> <a href="http://arxiv.org/abs/1609.03605" target="_blank" rel="external">Detecting Text in Natural Image with Connectionist Text Proposal Network</a></li>
+</ul>
+<h1 id="国内老师工作跟踪"><a href="#国内老师工作跟踪" class="headerlink" title="国内老师工作跟踪"></a>国内老师工作跟踪</h1><h2 id="白翔"><a href="#白翔" class="headerlink" title="白翔"></a>白翔</h2><ul>
+<li>2018<ul>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1803.05265" target="_blank" rel="external">Rotation-Sensitive Regression for Oriented Scene Text Detection</a></li>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1802.08948" target="_blank" rel="external">Multi-Oriented Scene Text Detection via Corner Localization and Region Segmentation</a></li>
+<li><a href="https://arxiv.org/abs/1801.02765" target="_blank" rel="external">TextBoxes++: A Single-Shot Oriented Scene Text Detector</a> </li>
+</ul>
+</li>
+<li>2017<ul>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1703.06520" target="_blank" rel="external">Detecting Oriented Text in Natural Images by Linking Segments</a></li>
+<li><strong>AAAI</strong> <a href="https://arxiv.org/abs/1611.06779" target="_blank" rel="external">TextBoxes: A Fast Text Detector with a Single Deep Neural Network</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="金连文"><a href="#金连文" class="headerlink" title="金连文"></a>金连文</h2><ul>
+<li>2018<ul>
+<li><strong>AAAI</strong>  <a href="https://arxiv.org/abs/1711.04249" target="_blank" rel="external">Feature Enhancement Network: A Refined Scene Text Detector</a></li>
+</ul>
+</li>
+<li>2017<ul>
+<li><strong>CVPR</strong> <a href="https://arxiv.org/abs/1703.01425" target="_blank" rel="external">Deep Matching Prior Network: Toward Tighter Multi-oriented Text Detection</a><h1 id="文本检测数据集"><a href="#文本检测数据集" class="headerlink" title="文本检测数据集"></a>文本检测数据集</h1></li>
+</ul>
+</li>
+<li>Chinese Text in the Wild(CTW)<ul>
+<li><a href="https://arxiv.org/pdf/1803.00085.pdf" target="_blank" rel="external">paper</a></li>
+<li><a href="https://ctwdataset.github.io/" target="_blank" rel="external">data</a> </li>
+</ul>
+</li>
+<li>Reading Chinese Text in the Wild(RCTW-17)<ul>
+<li><a href="http://arxiv.org/pdf/1708.09585v2" target="_blank" rel="external">paper</a></li>
+<li><a href="http://mclab.eic.hust.edu.cn/icdar2017chinese/dataset.html" target="_blank" rel="external">data</a></li>
+</ul>
+</li>
+<li>ICPR MWI 2018 competition<ul>
+<li><a href="https://tianchi.aliyun.com/competition/information.htm?raceId=231651&amp;_is_login_redirect=true&amp;accounttraceid=595a06c3-7530-4b8a-ad3d-40165e22dbfe" target="_blank" rel="external">data</a></li>
+</ul>
+</li>
+<li>Total-Text<ul>
+<li><a href="http:// arxiv.org/pdf/1710.10400v" target="_blank" rel="external">paper</a></li>
+<li><a href="http://www.cs-chan.com/source/ICDAR2017/totaltext.zip" target="_blank" rel="external">data</a></li>
+</ul>
+</li>
+<li>Google FSNS(谷歌街景文本数据集)<ul>
+<li><a href="http:// arxiv.org/pdf/1702.03970v1" target="_blank" rel="external">paper</a></li>
+<li><a href="http://rrc.cvc.uab.es/?ch=6&amp;com=downloads" target="_blank" rel="external">data</a></li>
+</ul>
+</li>
+<li>COCO-TEXT<ul>
+<li><a href="http://arxiv.org/pdf/1601.07140v2" target="_blank" rel="external">paper</a></li>
+<li><a href="https://vision.cornell.edu/se3/coco-text-2/" target="_blank" rel="external">data</a></li>
+</ul>
+</li>
+<li>Synthetic Data for Text Localisation<ul>
+<li><a href="http://www.robots.ox.ac.uk/~ankush/textloc.pdf" target="_blank" rel="external">paper</a></li>
+<li><a href="http://www.robots.ox.ac.uk/~vgg/data/scenetext/" target="_blank" rel="external">data</a></li>
+<li><a href="https://github.com/ankush-me/SynthText" target="_blank" rel="external">code Eng</a></li>
+<li><a href="https://github.com/wang-tf/Chinese_OCR_synthetic_data" target="_blank" rel="external">code Chi</a></li>
+</ul>
+</li>
+<li>Synthetic Word Dataset<ul>
+<li><a href="http://www.robots.ox.ac.uk/~vgg/data/text/" target="_blank" rel="external">data</a></li>
+</ul>
+</li>
+<li>Caffe-ocr中文合成数据<ul>
+<li><a href="https://pan.baidu.com/s/1dFda6R3" target="_blank" rel="external">data</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/deep-learning/" rel="tag"># deep learning</a>
+          
+            <a href="/tags/text-detection/" rel="tag"># text detection</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/25/baoyan/" rel="next" title="我的保研路">
+                <i class="fa fa-chevron-left"></i> 我的保研路
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/19/object-detection/" rel="prev" title="object detection">
+                object detection <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://otaqy7jyn.bkt.clouddn.com/IMG_4837.JPG"
+               alt="cjstyle" />
+          <p class="site-author-name" itemprop="name">cjstyle</p>
+           
+              <p class="site-description motion-element" itemprop="description">凡心所向，素履以往。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相关论文"><span class="nav-number">1.</span> <span class="nav-text">相关论文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2018"><span class="nav-number">1.1.</span> <span class="nav-text">2018</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017"><span class="nav-number">1.2.</span> <span class="nav-text">2017</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2016"><span class="nav-number">1.3.</span> <span class="nav-text">2016</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#国内老师工作跟踪"><span class="nav-number">2.</span> <span class="nav-text">国内老师工作跟踪</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#白翔"><span class="nav-number">2.1.</span> <span class="nav-text">白翔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#金连文"><span class="nav-number">2.2.</span> <span class="nav-text">金连文</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本检测数据集"><span class="nav-number">3.</span> <span class="nav-text">文本检测数据集</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cjstyle</span>
+</div>
+
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
